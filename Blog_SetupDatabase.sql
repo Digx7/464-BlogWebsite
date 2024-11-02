@@ -2,9 +2,14 @@ DROP DATABASE IF EXISTS `Blog_Website`;
 CREATE DATABASE `Blog_Website`;
 USE `Blog_Website`;
 
+/* Passwords will be stored as a hash using the method discussed here: 
+	https://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length/55753734#55753734 
+    */
 CREATE TABLE users (
 	user_id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
+    profile_pic blob,
+    password_hash char(82) NOT NULL, 
     PRIMARY KEY (user_id)
 );
 
@@ -31,12 +36,12 @@ CREATE TABLE comments (
     FOREIGN KEY (blog_id) REFERENCES blogs (blog_id)
 );
 
-INSERT INTO users (username)
+INSERT INTO users (username, password_hash)
 VALUES
-('Digx7'),
-('Masher2'),
-('Oceanstuck'),
-('Jxxmimi');
+('Digx7', 'jR;e~HWtPQKiFkWco.cY)=wE^)=+,#8Du=A60H[Coli1Pn4J7Z'),
+('Masher2', 'pP}iMWySTLRadUutBMez(Mv(eXAL._r[wnTM;y2OXroDmCV=1'),
+('Oceanstuck', 'gwTdi!Sby5JQXe6vUZSu.HEN[$@!$X#%rX-#X+AOji~k2y~16'),
+('Jxxmimi', 'r-Y+%UM9#z$1N~zxkCOm54Ch~C@noKtq8uTljE4xQs3q[CO06K');
 
 INSERT INTO blogs (title, author, date_published, date_last_updated, content)
 VALUES
