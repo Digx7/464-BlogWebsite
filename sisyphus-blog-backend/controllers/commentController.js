@@ -1,5 +1,10 @@
 const Joi = require('joi'); // Import Joi
-const db = require('../config/db');
+
+// Temporary in-memory storage for comments
+let comments = [];
+
+// This will be used when the database is integrated
+// const db = require('../config/db'); // Import the database connection
 
 // Define a Joi schema for comment validation
 const commentSchema = Joi.object({
@@ -8,6 +13,7 @@ const commentSchema = Joi.object({
   content: Joi.string().min(1).required()    // content must be a string with at least 1 character
 });
 
+// Function to add a new comment to a blog post
 exports.addComment = (req, res) => {
   // Validate the incoming data using the schema
   const { error } = commentSchema.validate(req.body);
@@ -17,9 +23,27 @@ exports.addComment = (req, res) => {
 
   const { blogId, userId, content } = req.body;
 
-  // Log the data (for debugging)
-  console.log('Comment data:', { blogId, userId, content });
+  // Create a new comment object
+  const newComment = {
+    id: comments.length + 1, // Generate a unique ID
+    blogId,
+    userId,
+    content,
+    createdAt: new Date().toISOString() // Use ISO string format for consistency
+  };
 
-  // Proceed with adding the comment logic (e.g., database query)
-  res.status(201).json({ message: 'Comment added successfully (mock response)' });
+  comments.push(newComment); // Add the new comment to the mock data
+
+  // Return the newly created comment
+  res.status(201).json({
+    message: 'Comment added successfully',
+    comment: newComment // Ensure this includes all properties (id, userId, blogId, content, createdAt)
+  });
+};
+
+// Function to get comments for a specific blog post
+exports.getComments = (req, res) => {
+  const blogId = parseInt(req.params.blogId, 10); // Get the blog ID from the URL parameters
+  const postComments = comments.filter(comment => comment.blogId === blogId); // Filter comments by blog ID
+  res.status(200).json(postComments); // Return the filtered comments
 };

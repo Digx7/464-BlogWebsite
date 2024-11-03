@@ -1,8 +1,13 @@
 // routes/commentRoutes.js
 const express = require('express');
+const commentController = require('../controllers/commentController');
+
 const router = express.Router();
-const { addComment } = require('../controllers/commentController');
 
-router.post('/', addComment);
+// Route to get comments for a specific blog post
+router.get('/:blogId', commentController.getComments);
 
-module.exports = router; // Make sure you are exporting the router
+// Route to add a new comment to a blog post
+router.post('/', commentController.addComment);
+
+module.exports = router;
