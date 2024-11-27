@@ -35,22 +35,31 @@ exports.addComment = (req, res) => {
 
   const { blogId, userId, content } = req.body;
 
+  const currentDate = new Date().toISOString()
+
   // Create a new comment object
   const newComment = {
-    id: comments.length + 1, // Generate a unique ID
+    id: 2, // Generate a unique ID
     blogId,
     userId,
     content,
-    createdAt: new Date().toISOString() // Use ISO string format for consistency
+    currentDate // Use ISO string format for consistency
   };
 
-  comments.push(newComment); // Add the new comment to the mock data
+  // comments.push(newComment); // Add the new comment to the mock data
 
   // Return the newly created comment
-  res.status(201).json({
-    message: 'Comment added successfully',
-    comment: newComment // Ensure this includes all properties (id, userId, blogId, content, createdAt)
-  });
+  // res.status(201).json({
+  //   message: 'Comment added successfully',
+  //   comment: newComment // Ensure this includes all properties (id, userId, blogId, content, createdAt)
+  // });
+
+  db.all(`INSERT INTO comments (id, blogId, userId, content, date_posted)
+          VALUES (NULL, ?, ?, ?, ?)`, [blogId, userId, content, currentDate], (err, rows) => {
+            if (err) {console.log(err)}
+            else {res.status(201).json({ message: 'Comment added successfully', comment: newComment})}
+          });
+
 };
 
 // Function to get comments for a specific blog post

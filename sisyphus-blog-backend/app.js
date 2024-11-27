@@ -149,13 +149,13 @@ function createTables(newdb) {
       id INTEGER PRIMARY KEY NOT NULL,
       blogId INTEGER NOT NULL,
       userId INTEGER NOT NULL,
-      date_posted TEXT NOT NULL,
       content TEXT NOT NULL,
+      date_posted TEXT NOT NULL,
       FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (blogId) REFERENCES blogs(id) ON DELETE CASCADE
     );
-    INSERT INTO comments (id, blogId, userId, date_posted, content)
-      VALUES (1, 1, 1, '2024-10-10 13:30:30:003', 'First');
+    INSERT INTO comments (id, blogId, userId, content, date_posted)
+      VALUES (1, 1, 1, 'First', '2024-10-10 13:30:30:003');
     `, (err) => {
       if (err) {
         console.log("Getting Error " + err);
