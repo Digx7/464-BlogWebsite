@@ -13,8 +13,20 @@ const commentSchema = Joi.object({
   content: Joi.string().min(1).required()    // content must be a string with at least 1 character
 });
 
+var sqlite3 = require('sqlite3');
+let db = new sqlite3.Database('./db/main.db', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.log("Getting error " + err);
+  }
+});
+
 // Function to add a new comment to a blog post
 exports.addComment = (req, res) => {
+  console.log("Add Comment");
+  console.log(req.params);
+  console.log(req.query);
+  console.log(req.body);
+  
   // Validate the incoming data using the schema
   const { error } = commentSchema.validate(req.body);
   if (error) {
@@ -43,7 +55,18 @@ exports.addComment = (req, res) => {
 
 // Function to get comments for a specific blog post
 exports.getComments = (req, res) => {
+  console.log("Get Comments");
+  console.log(req.params);
+  console.log(req.query);
+  console.log(req.body);
+  
   const blogId = parseInt(req.params.blogId, 10); // Get the blog ID from the URL parameters
-  const postComments = comments.filter(comment => comment.blogId === blogId); // Filter comments by blog ID
-  res.status(200).json(postComments); // Return the filtered comments
+  // const postComments = comments.filter(comment => comment.blogId === blogId); // Filter comments by blog ID
+  // res.status(200).json(postComments); // Return the filtered comments
+
+  db.all(`SELECT blogId, userId, content FROM comments WHERE blogId = ?`, blogId, (err, rows) => {
+    // console.log(rows);
+    res.status(200).json(rows);
+  });
+
 };

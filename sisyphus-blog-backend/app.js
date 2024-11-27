@@ -86,12 +86,12 @@ function createTables(newdb) {
   console.log(`Creating Users`);
   newdb.exec(`
     CREATE TABLE users (
-      user_id INTEGER PRIMARY KEY NOT NULL,
+      id INTEGER PRIMARY KEY NOT NULL,
       username TEXT NOT NULL,
       profile_pic BLOB,
       password_hash TEXT NOT NULL
     );
-    INSERT INTO users (user_id, username, profile_pic, password_hash)
+    INSERT INTO users (id, username, profile_pic, password_hash)
       VALUES (1, 'Digx7', NULL, 'jR;e~HWtPQKiFkWco.cY)=wE^)=+,#8Du=A60H[Coli1Pn4J7Z'),
               (2, 'Masher2', NULL, 'pP}iMWySTLRadUutBMez(Mv(eXAL._r[wnTM;y2OXroDmCV=1'),
               (3, 'Oceanstuck', NULL, 'gwTdi!Sby5JQXe6vUZSu.HEN[$@!$X#%rX-#X+AOji~k2y~16'),
@@ -108,13 +108,13 @@ function createTables(newdb) {
     CREATE TABLE blogs (
       id INTEGER PRIMARY KEY NOT NULL,
       title TEXT NOT NULL,
-      author_id INTEGER NOT NULL,
+      authorId INTEGER NOT NULL,
       date_published TEXT NOT NULL,
       date_last_updated TEXT NOT NULL,
       content TEXT NOT NULL,
-      FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE SET DEFAULT
+      FOREIGN KEY (authorId) REFERENCES users(user_id) ON DELETE SET DEFAULT
     );
-    INSERT INTO blogs (id, title, author_id, date_published, date_last_updated, content)
+    INSERT INTO blogs (id, title, authorId, date_published, date_last_updated, content)
       VALUES (NULL, 'Top 10 Ways to Cheat On A Final Project', 1, datetime('now'), datetime('now'), '<!DOCTYPE html>
                 <html lang="en">
                 <head>
@@ -146,15 +146,15 @@ function createTables(newdb) {
   console.log(`Creating Comments`);
   newdb.exec(`
     CREATE TABLE comments (
-      comment_id INTEGER PRIMARY KEY NOT NULL,
-      user_id INTEGER NOT NULL,
-      blog_id INTEGER NOT NULL,
+      id INTEGER PRIMARY KEY NOT NULL,
+      blogId INTEGER NOT NULL,
+      userId INTEGER NOT NULL,
       date_posted TEXT NOT NULL,
       content TEXT NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-      FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (blogId) REFERENCES blogs(id) ON DELETE CASCADE
     );
-    INSERT INTO comments (comment_id, user_id, blog_id, date_posted, content)
+    INSERT INTO comments (id, blogId, userId, date_posted, content)
       VALUES (1, 1, 1, '2024-10-10 13:30:30:003', 'First');
     `, (err) => {
       if (err) {
@@ -164,55 +164,6 @@ function createTables(newdb) {
   });
 
   runQueries(newdb);
-
-
-  // newdb.exec(`
-  //   CREATE TABLE users (
-  //     user_id INTEGER PRIMARY KEY NOT NULL,
-  //     username TEXT NOT NULL,
-  //     profile_pic BLOB,
-  //     password_hash TEXT NOT NULL
-  //   );
-  //   CREATE TABLE blogs (
-  //     blog_id INTEGER PRIMARY KEY NOT NULL,
-  //     title TEXT NOT NULL,
-  //     author_id INTEGER NOT NULL,
-  //     date_published TEXT NOT NULL,
-  //     date_last_updated TEXT NOT NULL,
-  //     content TEXT NOT NULL,
-  //     FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE SET DEFAULT
-  //   );
-  //   CREATE TABLE comments (
-  //     comment_id INTEGER PRIMARY KEY NOT NULL,
-  //     user_id INTEGER NOT NULL,
-  //     blog_id INTEGER NOT NULL,
-  //     date_posted TEXT NOT NULL,
-  //     content TEXT NOT NULL
-  //     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-  //     FOREIGN KEY (blog_id) REFERENCES blogs(blog_id) ON DELETE CASCADE
-  //   );
-  //   INSERT INTO users
-  //     VALUES (NULL, 'Digx7', NULL, 'jR;e~HWtPQKiFkWco.cY)=wE^)=+,#8Du=A60H[Coli1Pn4J7Z'),
-  //             (NULL, 'Masher2', NULL, 'pP}iMWySTLRadUutBMez(Mv(eXAL._r[wnTM;y2OXroDmCV=1'),
-  //             (NULL, 'Oceanstuck', NULL, 'gwTdi!Sby5JQXe6vUZSu.HEN[$@!$X#%rX-#X+AOji~k2y~16'),
-  //             (NULL, 'Jxxmimi', NULL, 'r-Y+%UM9#z$1N~zxkCOm54Ch~C@noKtq8uTljE4xQs3q[CO06K');
-  //   INSERT INTO blogs
-  //     VALUES (NULL, 'Top 10 Ways to Cheat On A Final Project', 0, '2024-10-10 13:30:30:003','2024-10-10 13:30:30:003', '<!DOCTYPE html>
-  //             <html lang="en">
-  //             <head>
-  //               <meta charset="utf-8">
-  //               <title>Top 10 Ways to Cheat On A Final Project</title>
-  //             </head>
-  //             <body>
-  //               <p>DONT</p>
-  //             </body>
-  //             </html>');
-  //   INSERT INTO comments
-  //     VALUES (NULL, 0, 0, '2024-10-10 13:30:30:003', 'First');
-    
-  //   `, () => {
-  //     runQueries(newdb);
-  //   });
 }
 
 function runQueries(db) {

@@ -16,6 +16,7 @@ let db = new sqlite3.Database('./db/main.db', sqlite3.OPEN_READWRITE, (err) => {
 // Function to get all blog posts
 // Sends a JSON response containing the list of all blog posts
 exports.getAllBlogs = (req, res) => {
+  console.log("Get All Blogs");
   console.log(req.params);
   console.log(req.query);
   console.log(req.body);
@@ -34,6 +35,7 @@ exports.getAllBlogs = (req, res) => {
 // Validates the incoming request to ensure both title and content are provided
 // If valid, creates a new blog post, adds it to the list, and sends a success response
 exports.createBlog = (req, res) => {
+  console.log("Create Blog");
   console.log(req.params);
   console.log(req.query);
   console.log(req.body);
@@ -54,7 +56,7 @@ exports.createBlog = (req, res) => {
   //   content
   // };
 
-  db.all(`INSERT INTO blogs (id, title, author_id, date_published, date_last_updated, content)
+  db.all(`INSERT INTO blogs (id, title, authorId, date_published, date_last_updated, content)
           VALUES (NULL, ?, 1, datetime('now'), datetime('now'), ?)`, [title, content], (err, rows) => {
             if (err) {
               console.log("Getting Error " + err);
@@ -70,6 +72,7 @@ exports.createBlog = (req, res) => {
 
 // New function to delete a blog post
 exports.deleteBlog = (req, res) => {
+  console.log("Delete Blog");
   console.log(req.params);
   console.log(req.query);
   console.log(req.body);
