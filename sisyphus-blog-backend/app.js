@@ -106,7 +106,7 @@ function createTables(newdb) {
   console.log(`Creating Blogs`);
   newdb.exec(`
     CREATE TABLE blogs (
-      blog_id INTEGER PRIMARY KEY NOT NULL,
+      id INTEGER PRIMARY KEY NOT NULL,
       title TEXT NOT NULL,
       author_id INTEGER NOT NULL,
       date_published TEXT NOT NULL,
@@ -114,8 +114,8 @@ function createTables(newdb) {
       content TEXT NOT NULL,
       FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE SET DEFAULT
     );
-    INSERT INTO blogs (blog_id, title, author_id, date_published, date_last_updated, content)
-      VALUES (1, 'Top 10 Ways to Cheat On A Final Project', 1, datetime('now'), datetime('now'), '<!DOCTYPE html>
+    INSERT INTO blogs (id, title, author_id, date_published, date_last_updated, content)
+      VALUES (NULL, 'Top 10 Ways to Cheat On A Final Project', 1, datetime('now'), datetime('now'), '<!DOCTYPE html>
                 <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -125,7 +125,7 @@ function createTables(newdb) {
                   <p>DONT</p>
                 </body>
                 </html>'),
-              (2, 'Why Your Wrong About Everything', 1, datetime('now'), datetime('now'), '<!DOCTYPE html>
+              (NULL, 'Why Your Wrong About Everything', 1, datetime('now'), datetime('now'), '<!DOCTYPE html>
                 <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -152,7 +152,7 @@ function createTables(newdb) {
       date_posted TEXT NOT NULL,
       content TEXT NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-      FOREIGN KEY (blog_id) REFERENCES blogs(blog_id) ON DELETE CASCADE
+      FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE
     );
     INSERT INTO comments (comment_id, user_id, blog_id, date_posted, content)
       VALUES (1, 1, 1, '2024-10-10 13:30:30:003', 'First');
@@ -216,10 +216,10 @@ function createTables(newdb) {
 }
 
 function runQueries(db) {
-  db.all(`SELECT * FROM blogs`, (err, rows) => {
+  db.all(`SELECT id, title, content FROM blogs`, (err, rows) => {
     
     rows.forEach(row => {
-      console.log (row.blog_id + "\t" + row.title);
+      console.log (row.id + "\t" + row.title + "\t" + row.content);
     });
   });
 }
