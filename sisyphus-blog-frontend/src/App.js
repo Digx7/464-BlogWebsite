@@ -62,8 +62,8 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Sisyphus Blog</h1>
+      <div className="App">
+      <h1 style={{ backgroundColor: 'antiquewhite', padding: '10px' }}>Sisyphus Blog</h1>
       {!user ? (
         <Login onLogin={handleLogin} />
       ) : (
@@ -72,20 +72,25 @@ function App() {
           {user.role === 'developer' && (
             <div>
               <h2>Create a Blog Post</h2>
-              <form onSubmit={handleCreatePost}>
+              <div className="add-post">
+                <form onSubmit={handleCreatePost}>
                 <input
                   type="text"
                   placeholder="Title"
                   value={newPostTitle}
                   onChange={e => setNewPostTitle(e.target.value)}
-                />
+                  size="99"
+                /><br />
                 <textarea
                   placeholder="Content"
                   value={newPostContent}
                   onChange={e => setNewPostContent(e.target.value)}
-                ></textarea>
+                  rows="10"
+                  cols="100"
+                ></textarea><br />
                 <button type="submit">Submit</button>
-              </form>
+                </form>
+              </div>
             </div>
           )}
         </>

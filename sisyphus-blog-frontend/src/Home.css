@@ -1,0 +1,40 @@
+body {
+    background-color: darkslateblue;
+    color: black;
+    padding: 5px 10px;
+}
+
+h2 {
+    background-color: antiquewhite;
+    padding: 10px;
+}
+
+.blog-post {
+    background-color: antiquewhite;
+    padding: 10px;
+}
+
+.comments {
+    background-color: floralwhite;
+    padding: 5px 10px;
+}
+
+button {
+    background-color: darkslateblue;
+    color: white;
+}
+
+.no-posts {
+    background-color: antiquewhite;
+    padding: 10px;
+}
+
+.add-post {
+    background-color: antiquewhite;
+    padding: 5px;
+}
+
+.login-form {
+    background-color: antiquewhite;
+    padding: 5px;
+}

@@ -55,7 +55,7 @@ VALUES
 	<p>DONT</p>
 </body>
 </html>'),
-('Why Your Wrong About Everything', 'Mr. Knowitall', '1834-12-25', '1834-12-26', '<!DOCTYPE html>
+('Why You\'re Wrong About Everything', 'Mr. Knowitall', '1834-12-25', '1834-12-26', '<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">

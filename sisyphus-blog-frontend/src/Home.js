@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Home.css';
 
 const Home = ({ onDelete, user }) => {
   const [blogs, setBlogs] = useState([]);
@@ -73,22 +74,22 @@ const Home = ({ onDelete, user }) => {
     }));
   };
 
-  return (
-    <div>
+    return (
+      <div className="blog-posts">
       <h2>Blog Posts</h2>
       {blogs.length > 0 ? (
         blogs.map((blog) => (
-          <div key={blog.id}>
-            <h3>{blog.title}</h3>
-            <p>{blog.content}</p>
+          <div key={blog.id} className="blog-post">
+            <h3 className="post-title">{blog.title}</h3>
+            <p className="post-body">{blog.content}</p>
             {user.role === 'developer' && ( // Only show delete button if the user is a developer
               <button onClick={() => onDelete(blog.id)}>Delete</button>
             )}
 
             {/* Comments Section */}
-            <div>
+            <div className="comments">
               <h4>Comments</h4>
-              <button onClick={() => fetchComments(blog.id)}>Load Comments</button>
+              <button onClick={() => fetchComments(blog.id)}>View Comments</button>
               {comments[blog.id] ? (
                 comments[blog.id].length > 0 ? (
                   comments[blog.id].map((comment) => (
@@ -100,24 +101,25 @@ const Home = ({ onDelete, user }) => {
                   <p>No comments yet.</p>
                 )
               ) : (
-                <p>Click "Load Comments" to see comments.</p>
+                <p>Click "View Comments" to see comments.</p>
               )}
 
               {/* Add Comment Form */}
-              <div>
-                <input
-                  type="text"
+              <div className="add-comment">
+                <textarea
                   value={newComments[blog.id] || ''} // Use the specific comment input for this blog post
                   onChange={(e) => handleCommentChange(blog.id, e.target.value)}
                   placeholder="Add a comment"
-                />
+                  rows="5"
+                  cols="50"
+                /><br />
                 <button onClick={() => handleAddComment(blog.id)}>Submit</button>
               </div>
             </div>
           </div>
         ))
       ) : (
-        <p>No blog posts found.</p>
+        <p className="no-posts">No blog posts found.</p>
       )}
     </div>
   );
